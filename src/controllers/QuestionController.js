@@ -1,0 +1,39 @@
+import { Question } from '../models';
+import { HelperMethods } from '../utils';
+/**
+ * Class representing the question controller
+ * @class QuestionController
+ * @description question controller
+ */
+class QuestionController {
+  /**
+   * Ask a question
+   * Route: POST: /api/v1/question
+   * @param {object} req - HTTP Request object
+   * @param {object} res - HTTP Response object
+   * @return {res} res - HTTP Response object
+   * @memberof UserController
+   */
+  static async askQuestion(req, res) {
+    const { body, decoded: { id } } = req;
+    let allLabels;
+    const { labels } = body;
+    if (labels) {
+      allLabels = labels.split(',').map(label => label.replace(/\s/g, ''));
+    }
+    const question = new Question({ ...body, userId: id, labels: allLabels });
+    try {
+      const newQuestion = await question.save();
+      if (newQuestion) {
+        return HelperMethods.requestSuccessful(res, {
+          success: true,
+          question: newQuestion
+        });
+      }
+    } catch (e) {
+      return HelperMethods.serverError(res, e.message);
+    }
+  }
+}
+
+export default QuestionController;

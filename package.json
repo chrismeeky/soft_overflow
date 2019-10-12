@@ -1,7 +1,7 @@
 {
   "name": "soft_overflow",
   "version": "1.0.0",
-  "description": "",
+  "description": "ask your questions, get quick answes",
   "main": "build/index.js",
   "scripts": {
     "coverage": "nyc report --reporter=text-lcov | coveralls",

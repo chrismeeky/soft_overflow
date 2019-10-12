@@ -1,0 +1,21 @@
+feature(user can ask question) [finishes #169104077]
+
+# Please enter the commit message for your changes. Lines starting
+# with '#' will be ignored, and an empty message aborts the commit.
+#
+# Date:      Sat Oct 12 19:34:41 2019 +0100
+#
+# On branch ft-user-can-ask-questions-169104077
+# Your branch is up to date with 'origin/ft-user-can-ask-questions-169104077'.
+#
+# Changes to be committed:
+#	modified:   package.json
+#	new file:   src/controllers/QuestionController.js
+#	modified:   src/controllers/index.js
+#	new file:   src/models/Question.js
+#	modified:   src/models/index.js
+#	modified:   src/routes/index.js
+#	new file:   src/routes/questionRoute.js
+#	modified:   src/test/integrationTests/index.js
+#	new file:   src/test/integrationTests/questionController.test.js
+#
