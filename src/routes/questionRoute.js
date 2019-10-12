@@ -9,6 +9,9 @@ const questionRoute = app => {
     QuestionController.askQuestion);
   app.get('/api/v1/questions',
     QuestionController.viewQuestions);
+  app.get('/api/v1/question/:id',
+    Validate.validateID,
+    QuestionController.viewAQuestion);
 };
 
 export default questionRoute;

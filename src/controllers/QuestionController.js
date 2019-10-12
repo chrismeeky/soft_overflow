@@ -1,5 +1,6 @@
 import { Question } from '../models';
 import { HelperMethods } from '../utils';
+
 /**
  * Class representing the question controller
  * @class QuestionController
@@ -50,6 +51,27 @@ class QuestionController {
       return HelperMethods.requestSuccessful(res, {
         success: true,
         questions,
+      });
+    } catch (e) {
+      return HelperMethods.serverError(res, e.message);
+    }
+  }
+
+  /**
+   * Get all questions
+   * Route: GET: /api/v1/question
+   * @param {object} req - HTTP Request object
+   * @param {object} res - HTTP Response object
+   * @return {res} res - HTTP Response object
+   * @memberof UserController
+   */
+  static async viewAQuestion(req, res) {
+    const question = await Question.findById(req.params.id);
+    try {
+      if (!question.title) return HelperMethods.clientError(res, 'question not found');
+      return HelperMethods.requestSuccessful(res, {
+        success: true,
+        question,
       });
     } catch (e) {
       return HelperMethods.serverError(res, e.message);
