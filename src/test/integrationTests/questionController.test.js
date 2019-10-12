@@ -2,7 +2,7 @@
 import chai from 'chai';
 import chaiHttp from 'chai-http';
 import app from '../../index';
-import { User } from '../../models';
+import { User, Question } from '../../models';
 
 const deleteUsers = async () => {
   await User.deleteMany({ isSubscribed: true });
@@ -60,5 +60,19 @@ describe('Integration tests for question controller', () => {
     expect(response.body.success).to.equal(false);
     expect(response.body.message).to.equal('Question validation failed: title:'
     + ' Path `title` is required.');
+  });
+  it('should get all questions', async () => {
+    const response = await chai.request(app).get('/api/v1/questions');
+    const { data } = response.body;
+    expect(data.success).to.equal(true);
+    expect(data).to.have.property('questions');
+    expect(data.questions).to.be.an('array');
+    expect(data.questions.length).to.not.equal(null);
+  });
+  it('should return error if there are no questions', async () => {
+    await Question.deleteMany({ votes: 0 });
+    const response = await chai.request(app).get('/api/v1/questions');
+    expect(response.body.success).to.equal(false);
+    expect(response.body.message).to.equal('no questions found');
   });
 });

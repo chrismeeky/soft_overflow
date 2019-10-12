@@ -34,6 +34,27 @@ class QuestionController {
       return HelperMethods.serverError(res, e.message);
     }
   }
+
+  /**
+   * Get all questions
+   * Route: GET: /api/v1/questions
+   * @param {object} req - HTTP Request object
+   * @param {object} res - HTTP Response object
+   * @return {res} res - HTTP Response object
+   * @memberof UserController
+   */
+  static async viewQuestions(req, res) {
+    const questions = await Question.find({});
+    try {
+      if (!questions.length) return HelperMethods.clientError(res, 'no questions found');
+      return HelperMethods.requestSuccessful(res, {
+        success: true,
+        questions,
+      });
+    } catch (e) {
+      return HelperMethods.serverError(res, e.message);
+    }
+  }
 }
 
 export default QuestionController;
