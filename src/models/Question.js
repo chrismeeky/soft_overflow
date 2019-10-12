@@ -14,6 +14,10 @@ const questionSchema = Schema({
     min: 20,
     max: 1000,
   },
+  isSubScribed: {
+    type: Boolean,
+    default: true,
+  },
   votes: {
     type: Number,
     default: 0,
