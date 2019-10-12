@@ -10,6 +10,7 @@ const deleteUsers = async () => {
 chai.use(chaiHttp);
 const { expect } = chai;
 let token;
+let questionId;
 before('login with an existing user details to get token', async () => {
   it('should create a user and verify the user', async () => {
     const userDetails = {
@@ -46,6 +47,7 @@ describe('Integration tests for question controller', () => {
         labels: 'express, mongoDB',
       });
     const { data } = response.body;
+    questionId = data.question['_id'];
     expect(data.success).to.equal(true);
     expect(data.question).to.have.property('_id');
     expect(data.question['_id']).to.be.an('string');
@@ -68,6 +70,19 @@ describe('Integration tests for question controller', () => {
     expect(data).to.have.property('questions');
     expect(data.questions).to.be.an('array');
     expect(data.questions.length).to.not.equal(null);
+  });
+  it('should return a specific question', async () => {
+    const response = await chai.request(app).get(`/api/v1/question/${questionId}`);
+    const { data } = response.body;
+    expect(data.success).to.equal(true);
+    expect(data).to.have.property('question');
+    expect(data.question).to.be.an('object');
+  });
+  it('should return error when the id is invalid', async () => {
+    const response = await chai.request(app).get('/api/v1/question/funnyid');
+    expect(response.body.success).to.equal(false);
+    expect(response.body.message)
+      .to.equal('Invalid request. \'A valid ID\' field is required');
   });
   it('should return error if there are no questions', async () => {
     await Question.deleteMany({ votes: 0 });

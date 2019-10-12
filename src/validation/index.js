@@ -1,3 +1,4 @@
+import mongoose from 'mongoose';
 /**
  * Trims input values from user
  * @param {object} objectWithValuesToTrim - request body to trim
@@ -71,6 +72,20 @@ class Validate {
     const emptyField = checkForEmptyFields(req.body);
     if (emptyField) return allFieldsRequired(res, emptyField);
     if (!req.body.email) return allFieldsRequired(res, 'email');
+    next();
+  }
+
+  /**
+  * @param {object} req - Request object
+  * @param {object} res - Response object
+  * @param {callback} next - The callback that passes the request to the next handler
+  * @returns {object} res - Response object when query is invalid
+  * @memberof Validate
+  */
+  static validateID(req, res, next) {
+    if (!mongoose.Types.ObjectId.isValid(req.params.id)) {
+      return allFieldsRequired(res, 'A valid ID');
+    }
     next();
   }
 
