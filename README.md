@@ -1,7 +1,8 @@
 [![Build Status](https://travis-ci.com/chrismeeky/soft_overflow.svg?branch=develop)](https://travis-ci.com/chrismeeky/soft_overflow)
 [![Coverage Status](https://coveralls.io/repos/github/chrismeeky/soft_overflow/badge.svg?branch=develop)](https://coveralls.io/github/chrismeeky/soft_overflow?branch=develop)
 [![Maintainability](https://api.codeclimate.com/v1/badges/03009360bca9ecba6944/maintainability)](https://codeclimate.com/github/chrismeeky/soft_overflow/maintainability)
-# soft_overflow
+
+# Softoverflow
 Softoverflow is an application created with the intention of providing solutions to programming problems.
 
 ### Vision
@@ -11,7 +12,7 @@ Our vision is to be the link between programmers who have questions and the ones
 * [Es6+ Javascript](https://www.ecma-international.org/ecma-262/9.0/index.html) The project was written with ES6 syntax and above.
 * [Node/Express](https://nodejs.org/en/) A JavaScript runtime built on Chrome's V8 JavaScript engine.
 * [MongoDB](https://www.mongodb.com/) The most popular database for modern apps.
-* [Swagger](https://getpostman.com/) Used for API documentation. Simplify API development for developers by helping to document APIs.
+* [Postman](https://getpostman.com/) Used for API documentation. Simplify API development for developers by helping to document APIs.
 * [Pivotal Tracker](https://www.pivotaltracker.com) A project management tool used to manage the app.
 * [Yarn](https://yarnpkg.com/lang/en/) Used as the package manager for the app. A fast, reliable, and secure dependency management system.
 
