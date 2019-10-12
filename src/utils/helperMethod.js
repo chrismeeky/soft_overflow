@@ -41,23 +41,6 @@ class HelperMethods {
   static requestSuccessful(res, payload, status = 200) {
     return res.status(status).json({ data: payload });
   }
-
-  /* eslint-enable no-useless-escape */
-  /**
-   * @param {object} err - error object
-   * @param {object} req - Request object
-   * @param {object} res - Response object
-   * @param {callback} next - The callback that passes the request to the next handler
-   * @returns {object} res - Response object when query is invalid
-   * @memberof Validate
-   */
-  static checkExpressErrors(err, req, res, next) {
-    res.status(500).json({
-      message: 'Something failed',
-      success: false
-    });
-    next();
-  }
 }
 
 export default HelperMethods;

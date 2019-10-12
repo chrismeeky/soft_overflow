@@ -8,8 +8,9 @@ import { UserController } from '../../controllers';
 chai.use(chaiHttp);
 const { expect } = chai;
 const deleteUsers = async () => {
-  await User.deleteMany({ firstName: 'John'})
-}
+  await User.deleteMany({ isSubscribed: true });
+};
+
 describe('Integration tests for the user controller', () => {
   deleteUsers();
   describe('Test general error handling and welcome message', () => {
@@ -85,6 +86,35 @@ describe('Integration tests for the user controller', () => {
       expect(response.body).to.have.property('message');
       expect(response.body.message)
         .to.equal('Internal server error');
+    });
+  });
+  describe('Test login a user', () => {
+    it('should log a user in when valid details are given', async () => {
+      await User.updateOne({ email: 'johnbvfde@wemail.com' },
+        { $set: { isVerified: true } });
+      const response = await chai.request(app).post('/api/v1/auth/login')
+        .send({
+          email: 'johnbvfde@wemail.com',
+          password: 'password'
+        });
+      expect(response.status).to.deep.equal(200);
+      expect(response.body.data).to.have.property('message');
+      expect(response.body.data.message).to.equal('Login successful');
+      expect(response.body.data).to.have.property('success');
+      expect(response.body.data.success).to.equal(true);
+      expect(response.body.data.userDetails).to.be.an('object');
+    });
+    it('should return client error when user details is missing', async () => {
+      const response = await chai.request(app).post('/api/v1/auth/login')
+        .send({
+          email: 'johnbvfdse@wemail.com'
+        });
+      expect(response.status).to.deep.equal(400);
+      expect(response.body).to.have.property('success');
+      expect(response.body.success).to.equal(false);
+      expect(response.body).to.have.property('message');
+      expect(response.body.message)
+        .to.equal('Invalid request. \'password\' field is required');
     });
   });
 });
