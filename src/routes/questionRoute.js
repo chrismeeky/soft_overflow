@@ -7,6 +7,8 @@ const questionRoute = app => {
     Authorization.checkToken,
     Validate.validateUserInput,
     QuestionController.askQuestion);
+  app.get('/api/v1/questions',
+    QuestionController.viewQuestions);
 };
 
 export default questionRoute;
