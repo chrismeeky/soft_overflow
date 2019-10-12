@@ -1,11 +1,13 @@
 language: node_js
 node_js:
-  - '8'
+- '8'
 cache: yarn
 script:
-  - yarn test
-
-after_success: 
-  - yarn global add codeclimate-test-reporter
-  - yarn coveralls
-  - codeclimate-test-reporter < ./coverage/lcov.info
+- yarn test
+env:
+  global:
+  - secure: zEOhmJyo003f+bkwP9F78Qr2rnykXxGs1Fig4GV57KWfrvj2FMBtZFAWLpu06IKCIxlESjXhkbD6zM0oE/vn29b7eWeIDVvo9Oy6uTq3A75E11i0zEmRmMaHB8sB7QSOZ5Glha+Hl7mGPGBC+JFwIY302X1rqbw/l8OyBMiMe59fwnoW13ygu6vVQzl17YHfTY9F4bNHPriw6SGT3fZGuBN7BgBEQnIHoIqARpwkJbhjXOBWkeNPp87PJOudJFparyaym1u65+w8tusCf4bgPa6mdgk5GyXyFtBX6lEIcI7dQ8svtNPMEdb30q4WKYLA5hXNOrf+2kimW5rIb8R/OURttVIcgAsHb8s6nUXlSAJtY5ElqIIEkm9pckZQYsGVZlPNFY628t3iLMv+818VYe2/ksylWh8Tv35fVDfZ3QtuHiUWvBvE06MR1ZtDUG4/Rz9fygeQ+CC4NvWcvSvyX5Sv14jH4lnkkwWrogifZgje9ksc1Z9BWR6PZuxJfuzEY7we2+hbq+2Zouf/+VIFdHBaorjT6brTeHKKUXUTvh5gsblXF+z6F/85csaR/6YmFS7TT3j5TWHZ6e8YZ3aHImqLx73fjz4nQs7b1ZmFNtExKlTJydtZkw1byih3+RQ6vVRbRMQHsFp809RlGtQnVtYlxXnjC+ai+6nbn9O74cs=
+after_success:
+- yarn global add codeclimate-test-reporter
+- yarn coveralls
+- codeclimate-test-reporter < ./coverage/lcov.info

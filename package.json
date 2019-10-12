@@ -6,8 +6,8 @@
   "scripts": {
     "coverage": "nyc report --reporter=text-lcov | coveralls",
     "coveralls": "nyc report --reporter=text-lcov | coveralls",
-    "test": "nyc --reporter=html --reporter=text mocha --exit --require @babel/register --require @babel/polyfill src/test/index.js --timeout 3000",
-    "dev-start": "set NODE_ENV=development && nodemon --exec babel-node src/index.js",
+    "test": "NODE_ENV=test nyc --reporter=html --reporter=text mocha --exit --require @babel/register --require @babel/polyfill src/test/index.js --no-timeout",
+    "dev-start": "export NODE_ENV=development || set NODE_ENV=development ./node_modules/nodemon/bin/nodemon.js --exec babel-node src/index.js",
     "build": "npm run clean && babel ./src -d build",
     "clean": "rm -rf ./build && mkdir build",
     "start": "node ./build/index.js"
@@ -47,6 +47,7 @@
     "@babel/core": "^7.5.5",
     "@babel/node": "^7.5.5",
     "@babel/plugin-transform-runtime": "^7.6.2",
+    "@babel/polyfill": "^7.6.0",
     "@babel/preset-env": "^7.5.5",
     "@babel/register": "^7.5.5",
     "babel-eslint": "^10.0.2",
@@ -57,6 +58,7 @@
     "chai": "^4.2.0",
     "chai-http": "^4.3.0",
     "coveralls": "^3.0.6",
+    "cross-env": "^6.0.3",
     "eslint": "^5.16.0",
     "eslint-config-airbnb-base": "^14.0.0",
     "eslint-config-prettier": "^6.0.0",

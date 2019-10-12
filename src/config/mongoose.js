@@ -1,8 +1,11 @@
 import mongoose from 'mongoose';
 
 const connectDatabase = async () => {
+  const connectionString = process.env.NODE_ENV === 'development'
+    ? process.env.DB_STRING_DEVELOPMENT : process.env.DB_STRING_TEST;
+    console.log(connectionString);
   try {
-    const connected = await mongoose.connect(process.env.DB_STRING,
+    const connected = await mongoose.connect(connectionString,
       { useNewUrlParser: true, useUnifiedTopology: true });
     if (connected) {
       console.info('connection has been established');
