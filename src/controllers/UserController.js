@@ -91,6 +91,59 @@ class UserController {
       return HelperMethods.serverError(res);
     }
   }
+
+  /**
+   * Login a user
+   * Route: POST: /auth/login
+   * @param {object} req - HTTP Request object
+   * @param {object} res - HTTP Response object
+   * @return {res} res - HTTP Response object
+   * @memberof UserController
+   */
+  static async login(req, res) {
+    try {
+      const {
+        email,
+        password
+      } = req.body;
+      const userFound = await User.findOne({ email });
+      if (!userFound) {
+        return HelperMethods.clientError(res, 'Email or password does not exist', 400);
+      }
+      if (!userFound.isVerified) {
+        return HelperMethods.clientError(res, {
+          success: false,
+          message: 'You had started the registration process already. '
+            + 'Please check your email to complete your registration.'
+        }, 400);
+      }
+      const isPasswordValid = await CryptData.decryptData(password, userFound.password);
+      if (userFound && isPasswordValid) {
+        const tokenCreated = await Authentication.getToken({
+          id: userFound.id,
+          username: userFound.username,
+          role: userFound.role,
+        });
+        if (tokenCreated) {
+          const userDetails = {
+            id: userFound.id,
+            username: userFound.username,
+            role: userFound.role,
+            token: tokenCreated,
+          };
+          return HelperMethods.requestSuccessful(res, {
+            success: true,
+            message: 'Login successful',
+            userDetails,
+          }, 200);
+        }
+        return HelperMethods.serverError(res);
+      }
+      return HelperMethods.clientError(res, 'Email or password does not exist', 400);
+    } catch (error) {
+      return HelperMethods.serverError(res);
+    }
+  }
 }
 
 export default UserController;
