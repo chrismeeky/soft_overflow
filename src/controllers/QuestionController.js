@@ -58,7 +58,7 @@ class QuestionController {
   }
 
   /**
-   * Get all questions
+   * Get specific question
    * Route: GET: /api/v1/question
    * @param {object} req - HTTP Request object
    * @param {object} res - HTTP Response object
