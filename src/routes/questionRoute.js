@@ -12,6 +12,10 @@ const questionRoute = app => {
   app.get('/api/v1/question/:id',
     Validate.validateID,
     QuestionController.viewAQuestion);
+  app.post('/api/v1/question/:id/vote',
+    Authorization.checkToken,
+    Validate.validateID,
+    QuestionController.voteAQuestion);
 };
 
 export default questionRoute;
