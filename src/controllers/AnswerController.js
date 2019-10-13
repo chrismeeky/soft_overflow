@@ -1,3 +1,4 @@
+import mongoose from 'mongoose';
 import { Answer } from '../models';
 import { HelperMethods } from '../utils';
 
@@ -16,45 +17,16 @@ class AnswerController {
    * @memberof UserController
    */
   static async answerQuestion(req, res) {
-    const { body, decoded: { id } } = req;
-    try {
-
-    } catch (e) {
-      return HelperMethods.serverError(res, e.message);
+    const { body, decoded: { id }, params: { question } } = req;
+    if (!mongoose.Types.ObjectId.isValid(question)) {
+      return HelperMethods.clientError(res, 'A valid id is required');
     }
-  }
-
-  /**
-   * Get all questions
-   * Route: GET: /api/v1/questions
-   * @param {object} req - HTTP Request object
-   * @param {object} res - HTTP Response object
-   * @return {res} res - HTTP Response object
-   * @memberof UserController
-   */
-  static async viewQuestions(req, res) {
+    const answer = new Answer({ ...body, question, repliedBy: id });
     try {
-      
-    } catch (e) {
-      return HelperMethods.serverError(res, e.message);
-    }
-  }
-
-  /**
-   * Get all questions
-   * Route: GET: /api/v1/question
-   * @param {object} req - HTTP Request object
-   * @param {object} res - HTTP Response object
-   * @return {res} res - HTTP Response object
-   * @memberof UserController
-   */
-  static async viewAQuestion(req, res) {
-    const question = await Question.findById(req.params.id);
-    try {
-      if (!question.title) return HelperMethods.clientError(res, 'question not found');
+      await answer.save();
       return HelperMethods.requestSuccessful(res, {
         success: true,
-        question,
+        answer,
       });
     } catch (e) {
       return HelperMethods.serverError(res, e.message);
@@ -62,4 +34,4 @@ class AnswerController {
   }
 }
 
-export default QuestionController;
+export default AnswerController;
