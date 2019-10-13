@@ -77,6 +77,36 @@ class QuestionController {
       return HelperMethods.serverError(res, e.message);
     }
   }
+
+  /**
+   * Upvote or Downvote a question
+   * Route: GET: /api/v1/question/:id/vote
+   * @param {object} req - HTTP Request object
+   * @param {object} res - HTTP Response object
+   * @return {res} res - HTTP Response object
+   * @memberof UserController
+   */
+  static async voteAQuestion(req, res) {
+    const question = await Question.findById(req.params.id);
+    try {
+      if (!question.title) return HelperMethods.clientError(res, 'question not found');
+      const { votes } = question;
+      if (votes.indexOf(req.decoded.id) > -1 || req.decoded.id === question.userId) {
+        votes.splice(votes.indexOf(req.decoded.id), 1);
+      } else {
+        votes.push(req.decoded.id);
+      }
+      await Question.updateOne({ _id: req.params.id }, { $set: { votes, } });
+      return HelperMethods.requestSuccessful(res, {
+        success: true,
+        message: 'Thank you for your feedback. Your vote has been recorded',
+        question,
+        totalVotes: votes.length
+      });
+    } catch (e) {
+      return HelperMethods.serverError(res, e.message);
+    }
+  }
 }
 
 export default QuestionController;

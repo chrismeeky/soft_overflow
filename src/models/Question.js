@@ -19,8 +19,7 @@ const questionSchema = Schema({
     default: true,
   },
   votes: {
-    type: Number,
-    default: 0,
+    type: Array,
   },
   labels: {
     type: Array,

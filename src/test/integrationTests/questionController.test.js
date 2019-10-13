@@ -84,8 +84,23 @@ describe('Integration tests for question controller', () => {
     expect(response.body.message)
       .to.equal('Invalid request. \'A valid ID\' field is required');
   });
+  it('should upvote or downvote a question', async () => {
+    const response = await chai.request(app).post(`/api/v1/question/${questionId}/vote`)
+      .set('x-access-token', token);
+    const { data } = response.body;
+    expect(data.success).to.equal(true);
+    expect(data.message).to
+      .equal('Thank you for your feedback. Your vote has been recorded');
+  });
+  it('should return error if the question ID is invalid', async () => {
+    const response = await chai.request(app).post('/api/v1/question/invalid_id/vote')
+      .set('x-access-token', token);
+    expect(response.body.success).to.equal(false);
+    expect(response.body.message).to
+      .equal('Invalid request. \'A valid ID\' field is required');
+  });
   it('should return error if there are no questions', async () => {
-    await Question.deleteMany({ votes: 0 });
+    await Question.deleteMany({ isSubScribed: true });
     const response = await chai.request(app).get('/api/v1/questions');
     expect(response.body.success).to.equal(false);
     expect(response.body.message).to.equal('no questions found');
