@@ -7,9 +7,11 @@ import { User, } from '../../models';
 const deleteUsers = async () => {
   await User.deleteMany({ isSubscribed: true });
 };
+deleteUsers();
 chai.use(chaiHttp);
 const { expect } = chai;
 let token;
+
 before('login with an existing user details to get token', async () => {
   it('should create a user and verify the user', async () => {
     const userDetails = {
@@ -33,13 +35,20 @@ before('login with an existing user details to get token', async () => {
         password: 'password',
       });
     token = response.body.data.userDetails.token;
-    deleteUsers();
   });
 });
 describe('Integration tests for answer controller', () => {
   it('should answer a question', async () => {
+    const createQuestion = await chai.request(app).post('/api/v1/question')
+      .set('x-access-token', token)
+      .send({
+        title: 'this title is for the integration test',
+        description: 'this description is also for integration test',
+        labels: 'express, mongoDB',
+      });
+    const id = createQuestion.body.data.question['_id'];
     const response = await chai.request(app)
-      .post('/api/v1/answer/5da204f9fcf7d12116c7c9be')
+      .post(`/api/v1/answer/${id}`)
       .set('x-access-token', token)
       .send({
         response: 'this is a response from the integration test to a question',

@@ -84,7 +84,7 @@ class QuestionController {
    * @param {object} req - HTTP Request object
    * @param {object} res - HTTP Response object
    * @return {res} res - HTTP Response object
-   * @memberof UserController
+   * @memberof QuestionController
    */
   static async voteAQuestion(req, res) {
     const question = await Question.findById(req.params.id);
