@@ -75,7 +75,7 @@ class UserController {
                 + 'email address. Please check your email to complete your registration'
           }, 200);
       }
-      return HelperMethods
+      HelperMethods
         .serverError(res, 'Your registration could not be completed. Please try again');
     } catch (error) {
       return HelperMethods.serverError(res);

@@ -68,7 +68,9 @@ class QuestionController {
   static async viewAQuestion(req, res) {
     const question = await Question.findById(req.params.id);
     try {
-      if (!question.title) return HelperMethods.clientError(res, 'question not found');
+      if (!question.title) {
+        return HelperMethods.clientError(res, 'question not found');
+      }
       return HelperMethods.requestSuccessful(res, {
         success: true,
         question,
