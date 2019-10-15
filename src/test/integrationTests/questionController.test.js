@@ -100,7 +100,7 @@ describe('Integration tests for question controller', () => {
       .equal('Invalid request. \'A valid ID\' field is required');
   });
   it('should return error if there are no questions', async () => {
-    await Question.deleteMany({ isSubScribed: true });
+    await Question.deleteMany({ isSubscribed: true });
     const response = await chai.request(app).get('/api/v1/questions');
     expect(response.body.success).to.equal(false);
     expect(response.body.message).to.equal('no questions found');
