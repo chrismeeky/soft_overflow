@@ -14,7 +14,7 @@ const questionSchema = Schema({
     min: 20,
     max: 1000,
   },
-  isSubScribed: {
+  isSubscribed: {
     type: Boolean,
     default: true,
   },

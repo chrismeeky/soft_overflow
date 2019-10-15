@@ -1,6 +1,8 @@
 import mongoose from 'mongoose';
-import { Answer } from '../models';
-import { HelperMethods } from '../utils';
+import {
+  Answer, Question, Message, User
+} from '../models';
+import { HelperMethods, SendEmail } from '../utils';
 
 /**
  * Class representing the question controller
@@ -22,12 +24,29 @@ class AnswerController {
       return HelperMethods.clientError(res, 'A valid id is required');
     }
     const answer = new Answer({ ...body, question, repliedBy: id });
+    const postedQuestion = await Question.findById(question);
     try {
-      await answer.save();
-      return HelperMethods.requestSuccessful(res, {
-        success: true,
-        answer,
-      });
+      const savedAnswer = await answer.save();
+      if (savedAnswer) {
+        if (postedQuestion.isSubscribed) {
+          const responder = await User.findById(id);
+          const recipient = await User.findById(postedQuestion.userId);
+          const isNotified = await SendEmail.sendEmailNotification(responder, recipient);
+          if (isNotified) {
+            const { username } = responder;
+            const message = new Message({
+              postedBy: postedQuestion.userId,
+              repliedBy: id,
+              message: `User, ${username} left you a comment to your question`
+            });
+            message.save();
+          }
+        }
+        return HelperMethods.requestSuccessful(res, {
+          success: true,
+          answer,
+        });
+      }
     } catch (e) {
       return HelperMethods.serverError(res, e.message);
     }

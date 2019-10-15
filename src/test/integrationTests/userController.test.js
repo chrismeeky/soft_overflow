@@ -10,9 +10,9 @@ const { expect } = chai;
 const deleteUsers = async () => {
   await User.deleteMany({ isSubscribed: true });
 };
+deleteUsers();
 
 describe('Integration tests for the user controller', () => {
-  deleteUsers();
   describe('Test general error handling and welcome message', () => {
     it('should send a "Page not found" error when invalid URL is given', async () => {
       const response = await chai.request(app).get('/api/v1/some/funny/url');
@@ -29,7 +29,7 @@ describe('Integration tests for the user controller', () => {
     });
     it('should create a user and send email for verification', async () => {
       const userDetails = {
-        username: 'JthnDmkloes',
+        username: 'JthnDmkloes2',
         password: 'password',
         email: 'johnbvfde@wemail.com',
         firstName: 'John',
