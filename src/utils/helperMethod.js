@@ -41,20 +41,6 @@ class HelperMethods {
   static requestSuccessful(res, payload, status = 200) {
     return res.status(status).json({ data: payload });
   }
-
-  /**
-   * A method used to confirm that a request was successful
-   * @param {object} votes - Object containing all the votes
-   * @param {string} id - The user ID
-   * @param {number} type The type of the vote Up || Down
-   * @returns {boolean} Returns true of the user can change vote and false if otherwise
-   */
-  static async canChangeVote(votes, id, type) {
-    if (votes.filter(vote => vote.id === id && vote.type === type).length > 0) {
-      return false;
-    }
-    return true;
-  }
 }
 
 export default HelperMethods;

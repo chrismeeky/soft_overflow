@@ -103,18 +103,13 @@ class QuestionController {
       if (votes.filter(vote => vote.id === id && vote.type === type).length > 0) {
         votes = [...votes];
       } else {
-        switch (type) {
-          case 'up':
-            votes.push({ type, id });
-            break;
-          case 'down':
-            votes.splice(votes.indexOf(req.decoded.id), 1);
-            break;
-          default:
-            votes = [...votes];
+        if (type === 'up') {
+          votes.push({ type, id });
+        }
+        if (type === 'down') {
+          votes.splice(votes.indexOf(req.decoded.id), 1);
         }
       }
-
       await Question.updateOne({ _id: req.params.id }, { $set: { votes, } });
       return HelperMethods.requestSuccessful(res, {
         success: true,
