@@ -84,16 +84,16 @@ describe('Integration tests for question controller', () => {
     expect(response.body.message)
       .to.equal('Invalid request. \'A valid ID\' field is required');
   });
-  it('should upvote or downvote a question', async () => {
-    const response = await chai.request(app).post(`/api/v1/question/${questionId}/vote`)
+  it('should not allow a user vote his own question', async () => {
+    const response = await chai.request(app).patch(`/api/v1/vote/${questionId}/down`)
       .set('x-access-token', token);
-    const { data } = response.body;
-    expect(data.success).to.equal(true);
-    expect(data.message).to
-      .equal('Thank you for your feedback. Your vote has been recorded');
+    const { body } = response;
+    expect(body.success).to.equal(false);
+    expect(body.message).to
+      .equal('You cannot vote on your own question');
   });
   it('should return error if the question ID is invalid', async () => {
-    const response = await chai.request(app).post('/api/v1/question/invalid_id/vote')
+    const response = await chai.request(app).patch('/api/v1/vote/invalid_id/up')
       .set('x-access-token', token);
     expect(response.body.success).to.equal(false);
     expect(response.body.message).to

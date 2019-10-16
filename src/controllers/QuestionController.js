@@ -89,15 +89,32 @@ class QuestionController {
    * @memberof QuestionController
    */
   static async voteAQuestion(req, res) {
-    const question = await Question.findById(req.params.id);
+    const { id, type } = req.params;
+    const question = await Question.findById(id);
     try {
-      if (!question.title) return HelperMethods.clientError(res, 'question not found');
-      const { votes } = question;
-      if (votes.indexOf(req.decoded.id) > -1 || req.decoded.id === question.userId) {
-        votes.splice(votes.indexOf(req.decoded.id), 1);
-      } else {
-        votes.push(req.decoded.id);
+      if (!question || !question.title) {
+        return HelperMethods.clientError(res, 'question not found');
       }
+      let { votes } = question;
+      if (req.decoded.id.toString() === question.userId.toString()) {
+        return HelperMethods.clientError(res,
+          'You cannot vote on your own question');
+      }
+      if (votes.filter(vote => vote.id === id && vote.type === type).length > 0) {
+        votes = [...votes];
+      } else {
+        switch (type) {
+          case 'up':
+            votes.push({ type, id });
+            break;
+          case 'down':
+            votes.splice(votes.indexOf(req.decoded.id), 1);
+            break;
+          default:
+            votes = [...votes];
+        }
+      }
+
       await Question.updateOne({ _id: req.params.id }, { $set: { votes, } });
       return HelperMethods.requestSuccessful(res, {
         success: true,
