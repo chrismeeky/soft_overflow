@@ -6,12 +6,14 @@ const userSchema = Schema({
     required: true,
     max: 20,
     min: 2,
+    text: true
   },
   lastName: {
     type: String,
     required: true,
     max: 20,
     min: 2,
+    text: true
   },
   email: {
     type: String,
@@ -24,6 +26,7 @@ const userSchema = Schema({
     required: true,
     max: 20,
     min: 3,
+    text: true
   },
   password: {
     type: String,
@@ -49,5 +52,6 @@ const userSchema = Schema({
     default: Date.now
   },
 });
+userSchema.index({ firstName: 'text', lastName: 'text', username: 'text' });
 
 module.exports = model('User', userSchema);
