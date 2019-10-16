@@ -13,7 +13,7 @@ class QuestionController {
    * @param {object} req - HTTP Request object
    * @param {object} res - HTTP Response object
    * @return {res} res - HTTP Response object
-   * @memberof UserController
+   * @memberof QuestionController
    */
   static async askQuestion(req, res) {
     const { body, decoded: { id } } = req;

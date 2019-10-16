@@ -5,7 +5,11 @@ const connectDatabase = async () => {
     ? process.env.DB_STRING_DEVELOPMENT : process.env.DB_STRING_TEST;
   try {
     const connected = await mongoose.connect(connectionString,
-      { useNewUrlParser: true, useUnifiedTopology: true });
+      {
+        useNewUrlParser: true,
+        useUnifiedTopology: true,
+        useCreateIndex: true
+      });
     if (connected) {
       console.info('connection has been established');
     }

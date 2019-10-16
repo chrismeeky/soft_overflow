@@ -6,12 +6,13 @@ const answerSchema = Schema({
   response: {
     type: String,
     required: true,
-    min: 15
+    min: 15,
+    text: true,
   },
   date: {
     type: Date,
     default: Date.now
   }
 });
-
+answerSchema.index({ response: 'text' });
 module.exports = model('Answer', answerSchema);

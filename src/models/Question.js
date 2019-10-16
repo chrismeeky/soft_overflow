@@ -6,13 +6,15 @@ const questionSchema = Schema({
     type: String,
     required: true,
     min: 15,
-    max: 100
+    max: 100,
+    text: true
   },
   description: {
     type: String,
     required: true,
     min: 20,
     max: 1000,
+    text: true,
   },
   isSubscribed: {
     type: Boolean,
@@ -31,4 +33,5 @@ const questionSchema = Schema({
     default: Date.now
   }
 });
+questionSchema.index({ title: 'text', description: 'text', labels: 'array' });
 module.exports = model('Question', questionSchema);
