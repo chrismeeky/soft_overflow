@@ -19,7 +19,10 @@ Our vision is to be the link between programmers who have questions and the ones
 
 
 ### REST API Docs
-The Api documentation is done using Postman. View [Softoverflow API Documentation](https://)
+The Api documentation is done using Postman. View [Softoverflow API Documentation](https://documenter.getpostman.com/view/7915396/SVtZuRV1)
+
+### Heroku Link
+The app is hosted on Heroku.com. Open [Softoverflow APP](https://softoverflow.herokuapp.com) to make your requests
 
 ### JWT Authentication
 The API endpoints are being authenticated using [JWT(Json Web Token)](https://jwt.io/).
@@ -40,7 +43,7 @@ User subscribe to Question (Get notification when question is answered)
 ## Installation and Running the Application
 
 * Clone the repository using: `git clone https://github.com/chrismeeky/soft_overflow.git`
-* Run `yarn install` To install the project dependencies
+* Run `yarn install` To install project dependencies
 * Run `yarn dev-start` To start the application
 * Run `yarn test` to run test
 
