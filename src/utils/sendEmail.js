@@ -8,6 +8,7 @@ if (process.env.NODE_ENV !== 'production') {
   baseUrl = process.env.SENDGRID_PRODUCTION__URL;
 }
 
+console.log(baseUrl)
 /* eslint-disable max-len */
 /**
  * @description contains utility function to send emails

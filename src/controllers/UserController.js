@@ -83,6 +83,43 @@ class UserController {
   }
 
   /**
+   * Verify a user's email
+   * Route: POST: /auth/verify_email
+   * @param {object} req - HTTP Request object
+   * @param {object} res - HTTP Response object
+   * @return {res} res - HTTP Response object
+   * @memberof UserController
+   */
+  static async verifyEmail(req, res) {
+    try {
+      const foundUser = await User.findOne({ _id: req.decoded.id });
+      if (foundUser) {
+        const userUpdated = await User.updateOne({ _id: req.decoded.id },
+          { $set: { isVerified: true } });
+        if (userUpdated) {
+          const isEmailSent = await
+          SendEmail.confirmRegistrationComplete(foundUser.email);
+          if (isEmailSent) {
+            const tokenCreated = await Authentication.getToken(userUpdated);
+            return res.status(201).json({
+              success: true,
+              message: `User ${foundUser.username} created successfully`,
+              id: userUpdated.id,
+              username: userUpdated.username,
+              token: tokenCreated,
+            });
+          }
+        }
+      }
+      return HelperMethods
+        .serverError(res, 'Could not complete your registration. '
+          + 'Please re-register.');
+    } catch (error) {
+      return HelperMethods.serverError(res);
+    }
+  }
+
+  /**
    * Login a user
    * Route: POST: /auth/login
    * @param {object} req - HTTP Request object
